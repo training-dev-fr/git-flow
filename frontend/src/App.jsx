@@ -1,35 +1,40 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [email,setEmail] = useState("");
+  const [password,setPassword] = useState("");
+
+  const connect = () => {
+    fetch("localhost:3000",{
+      method: "POST",
+      body: JSON.stringify({
+        email: email,
+        password:password
+      }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="form">
+        <div className="form-group">
+          <label htmlFor="email">Identifiant (email)</label>
+          <input type="text" name="email" id="email" onChange={(e) => setEmail(e.target.value)} />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Mot de passe</label>
+          <input type="password" name="password" id="password" onChange={(e) => setPassword(e.target.value)} />
+        </div>
+        <div className="form-group">
+          <button className="connect" onClick={connect}>Connexion</button>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
 
-export default App
+export default App;
